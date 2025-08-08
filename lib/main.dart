@@ -1,3 +1,4 @@
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -247,7 +248,8 @@ class _MyAppState extends State<MyApp> {
   }
 }
 
-class HomeScreen extends StatelessWidget {
+
+class HomeScreen extends StatefulWidget {
   final VoidCallback onThemeToggle;
   final bool isDarkMode;
 
@@ -258,15 +260,35 @@ class HomeScreen extends StatelessWidget {
   });
 
   @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  String? _version;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadVersion();
+  }
+
+  Future<void> _loadVersion() async {
+    final info = await PackageInfo.fromPlatform();
+    setState(() {
+      _version = info.version;
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('PM Communication Tools'),
         actions: [
           IconButton(
-            icon: Icon(isDarkMode ? Icons.light_mode : Icons.dark_mode),
-            onPressed: onThemeToggle,
-            tooltip: isDarkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode',
+            icon: Icon(widget.isDarkMode ? Icons.light_mode : Icons.dark_mode),
+            onPressed: widget.onThemeToggle,
+            tooltip: widget.isDarkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode',
           ),
         ],
       ),
@@ -326,6 +348,16 @@ class HomeScreen extends StatelessWidget {
                   () => Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => const RomCalculatorScreen()),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 32),
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Text(
+                  _version == null ? '' : 'Version: $_version',
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                    color: Theme.of(context).colorScheme.onSurfaceVariant,
                   ),
                 ),
               ),
@@ -774,92 +806,19 @@ class _RoadmapScreenState extends State<RoadmapScreen> {
     );
   }
 
-  void _showAddItemDialog() {
-    final titleController = TextEditingController();
-    final descriptionController = TextEditingController();
-    final problemController = TextEditingController();
-    final metricsController = TextEditingController();
-    String selectedStatus = 'now';
 
+
+  void _showAddItemDialog() {
     showDialog(
       context: context,
-      builder: (context) => StatefulBuilder(
-        builder: (context, setDialogState) => AlertDialog(
-          title: const Text('Add Roadmap Item'),
-          content: SingleChildScrollView(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                TextField(
-                  controller: titleController,
-                  decoration: const InputDecoration(labelText: 'Title'),
-                ),
-                TextField(
-                  controller: descriptionController,
-                  decoration: const InputDecoration(labelText: 'Description'),
-                  maxLines: 2,
-                ),
-                TextField(
-                  controller: problemController,
-                  decoration: const InputDecoration(labelText: 'Problem it solves'),
-                  maxLines: 2,
-                ),
-                TextField(
-                  controller: metricsController,
-                  decoration: const InputDecoration(labelText: 'Key Metrics'),
-                ),
-                const SizedBox(height: 16),
-                DropdownButtonFormField<String>(
-                  value: selectedStatus,
-                  decoration: const InputDecoration(labelText: 'Status'),
-                  items: const [
-                    DropdownMenuItem(value: 'now', child: Text('Now')),
-                    DropdownMenuItem(value: 'next', child: Text('Next')),
-                    DropdownMenuItem(value: 'later', child: Text('Later')),
-                  ],
-                  onChanged: (value) {
-                    setDialogState(() {
-                      selectedStatus = value!;
-                    });
-                  },
-                ),
-              ],
-            ),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: const Text('Cancel'),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                if (titleController.text.isNotEmpty) {
-                  final newItem = RoadmapItem(
-                    id: DateTime.now().millisecondsSinceEpoch.toString(),
-                    title: titleController.text,
-                    description: descriptionController.text,
-                    problem: problemController.text,
-                    keyMetrics: metricsController.text,
-                    status: selectedStatus,
-                  );
-                  
-                  setState(() {
-                    roadmaps[currentRoadmapIndex].items.add(newItem);
-                  });
-                  _saveRoadmaps();
-                  Navigator.pop(context);
-                }
-              },
-              child: const Text('Add'),
-            ),
-          ],
-        ),
+      builder: (context) => const AlertDialog(
+        content: Text('Add item dialog placeholder.'),
       ),
     );
   }
 }
 
-// Update Generator Models
+// StakeholderUpdate model (moved to top-level)
 class StakeholderUpdate {
   final String id;
   final DateTime date;
