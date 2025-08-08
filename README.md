@@ -1,16 +1,54 @@
-# pm_comms_flutterapp
 
-A new Flutter project.
+# PM Communication Tools (pm_comms_flutterapp)
+
+PM Communication Tools is a modern Flutter app designed to help product managers and teams communicate, align, and estimate project efforts efficiently. The app is cross-platform (Windows, Web, Mac, Linux, Android, iOS) and features:
+
+## Features
+- **Pocket Roadmap**: Visualize and share your product roadmap on the go.
+- **Stakeholder Update Generator**: Create structured progress updates quickly.
+- **ROM Calculator**: Estimate the cost of software efforts with risk factors.
+- **Dark/Light Mode**: Toggle between themes and save your preference.
+- **Version Info**: Displays app version in the UI.
+- **Persistent Storage**: Uses shared preferences for user settings and data.
+
+## Screenshots
+_Add screenshots here if available._
 
 ## Getting Started
+1. **Install Flutter**: [Flutter Install Guide](https://docs.flutter.dev/get-started/install)
+2. **Clone this repo**:
+	```
+	git clone https://github.com/patchwork712/pm_comms_flutterapp.git
+	cd pm_comms_flutterapp
+	```
+3. **Install dependencies**:
+	```
+	flutter pub get
+	```
+4. **Run the app**:
+	```
+	flutter run
+	```
+	_For Windows desktop:_
+	```
+	flutter run -d windows
+	```
 
-This project is a starting point for a Flutter application.
+## Running Tests
+To run all unit and widget tests:
+```
+flutter test
+```
 
-A few resources to get you started if this is your first Flutter project:
+## Building for Windows
+To build a Windows executable:
+```
+flutter build windows
+```
+The output will be in `build/windows/runner/Release/`.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## License
+This project is licensed under the MIT License. See [LICENSE](LICENSE) for details.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Contributing
+Pull requests are welcome! For major changes, please open an issue first to discuss what you would like to change.
